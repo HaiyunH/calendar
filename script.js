@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentDate = new Date();
     const calendarBody = document.getElementById('calendar-body');
     const monthYearDisplay = document.getElementById('month-year');
+    const prevMonthButton = document.getElementById('prev-month');
+    const nextMonthButton = document.getElementById('next-month');
 
     // Function to generate the calendar for the given month and year
     function generateCalendar(date) {
@@ -46,19 +48,21 @@ document.addEventListener('DOMContentLoaded', function () {
         return monthNames[monthIndex];
     }
 
-    // Handle vertical scroll to change months
-    let scrollTimeout;
-    calendarBody.addEventListener('scroll', function () {
-        clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(function () {
-            if (calendarBody.scrollTop > 50) {
-                currentDate.setMonth(currentDate.getMonth() + 1); // Scroll down, next month
-            } else if (calendarBody.scrollTop < -50) {
-                currentDate.setMonth(currentDate.getMonth() - 1); // Scroll up, previous month
-            }
-            generateCalendar(currentDate);
-        }, 150);
-    });
+    // Function to go to the previous month
+    function goToPrevMonth() {
+        currentDate.setMonth(currentDate.getMonth() - 1);
+        generateCalendar(currentDate);
+    }
+
+    // Function to go to the next month
+    function goToNextMonth() {
+        currentDate.setMonth(currentDate.getMonth() + 1);
+        generateCalendar(currentDate);
+    }
+
+    // Event listeners for the navigation buttons
+    prevMonthButton.addEventListener('click', goToPrevMonth);
+    nextMonthButton.addEventListener('click', goToNextMonth);
 
     // Initial call to generate the current month
     generateCalendar(currentDate);
