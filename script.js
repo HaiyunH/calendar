@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const noteInput = document.getElementById('note-input');
     const saveNoteBtn = document.getElementById('save-note');
     const cancelNoteBtn = document.getElementById('cancel-note');
+    const exportButton = document.getElementById('export-button');
     
     // Store notes in memory (you might want to use localStorage or a backend database)
     let selectedDate = null;
@@ -73,6 +74,17 @@ document.addEventListener('DOMContentLoaded', function () {
             
             // Add click handler for adding notes
             dayBlock.addEventListener('click', () => openNoteInput(dateKey));
+        }
+        
+        // Add empty blocks after the last day to fill the last row
+        const totalDays = firstDayOfMonth + daysInMonth;
+        const remainingBlocks = 7 - (totalDays % 7);
+        if (remainingBlocks < 7) { // Only add blocks if we need to complete the row
+            for (let i = 0; i < remainingBlocks; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.classList.add('day');
+                calendarBody.appendChild(emptyDay);
+            }
         }
         
         // Adjust row heights
@@ -244,6 +256,40 @@ document.addEventListener('DOMContentLoaded', function () {
     window.addEventListener('click', (e) => {
         if (e.target === editModal) {
             closeEditModal();
+        }
+    });
+
+    // Add export functionality
+    exportButton.addEventListener('click', async () => {
+        // Get the calendar wrapper element
+        const calendarWrapper = document.getElementById('calendar-wrapper');
+        
+        try {
+            // Show loading state
+            exportButton.textContent = 'Generating...';
+            exportButton.disabled = true;
+            
+            // Capture the calendar as an image
+            const canvas = await html2canvas(calendarWrapper, {
+                backgroundColor: '#f4f4f4',
+                scale: 2, // Higher quality
+                logging: false
+            });
+            
+            // Convert to image and download
+            const image = canvas.toDataURL('image/png');
+            const link = document.createElement('a');
+            link.download = `calendar-${monthYearDisplay.textContent.replace(' ', '-')}.png`;
+            link.href = image;
+            link.click();
+            
+            // Reset button state
+            exportButton.textContent = 'Export Calendar as Image';
+            exportButton.disabled = false;
+        } catch (error) {
+            console.error('Error generating calendar image:', error);
+            exportButton.textContent = 'Export Failed - Try Again';
+            exportButton.disabled = false;
         }
     });
 });

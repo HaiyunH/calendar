@@ -39,8 +39,6 @@ body {
 
 #calendar-container {
     flex-grow: 1;
-    max-height: 100vh;
-    overflow-y: auto;
     border: 1px solid #ddd;
     border-radius: 10px;
 }
@@ -153,4 +151,21 @@ body {
 
 #calendar-body .day:nth-last-child(-n+7) {
     border-bottom: none;
+}
+
+/* Export button styles */
+#export-button {
+    margin: 20px auto;
+    padding: 12px 24px;
+    background-color: #2a3d47;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    display: block;
+}
+
+#export-button:hover {
+    background-color: #1a2b32;
 }
