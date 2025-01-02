@@ -261,29 +261,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Add export functionality
     exportButton.addEventListener('click', async () => {
-        // Get the calendar wrapper element
         const calendarWrapper = document.getElementById('calendar-wrapper');
         
         try {
-            // Show loading state
             exportButton.textContent = 'Generating...';
             exportButton.disabled = true;
             
-            // Capture the calendar as an image
+            // Increase scale for higher resolution
             const canvas = await html2canvas(calendarWrapper, {
                 backgroundColor: '#f4f4f4',
-                scale: 2, // Higher quality
+                scale: 4, // Increased from 2 to 4 for higher resolution
                 logging: false
             });
             
             // Convert to image and download
-            const image = canvas.toDataURL('image/png');
+            const image = canvas.toDataURL('image/png', 1.0); // Added quality parameter
             const link = document.createElement('a');
             link.download = `calendar-${monthYearDisplay.textContent.replace(' ', '-')}.png`;
             link.href = image;
             link.click();
             
-            // Reset button state
             exportButton.textContent = 'Export Calendar as Image';
             exportButton.disabled = false;
         } catch (error) {
