@@ -6,14 +6,29 @@ body {
     background-color: #f4f4f4;
 }
 
-#calendar-container {
-    width: 100%;
-    max-width: 600px;
+#calendar-wrapper {
+    display: flex;
+    max-width: 1200px;
     margin: 20px auto;
+}
+
+#month-year-display {
+    width: 200px;
+    padding: 20px;
+    background-color: #2a3d47;
+    color: white;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#calendar-container {
+    flex-grow: 1;
+    max-height: 80vh; /* Make the container vertically scrollable */
+    overflow-y: auto; /* Allow vertical scrolling */
     border: 1px solid #ddd;
     border-radius: 10px;
-    overflow-y: auto;
-    max-height: 80vh; /* Vertical scrolling */
 }
 
 #calendar-header {
@@ -32,22 +47,34 @@ body {
 #calendar-body {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    padding: 10px;
+    padding: 0;
     background-color: #fff;
 }
 
 .day {
-    width: 50px;
-    height: 50px;
-    margin: 5px;
-    text-align: center;
-    line-height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70px; /* Increased height for larger blocks */
     border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 14px;
+    font-size: 20px; /* Larger font */
+    cursor: pointer;
+    background-color: white;
 }
 
 .day:hover {
     background-color: #f0f0f0;
-    cursor: pointer;
+}
+
+#calendar-body .day {
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+#calendar-body .day:last-child {
+    border-right: none;
+}
+
+#calendar-body .day:nth-last-child(-n+7) {
+    border-bottom: none;
 }
